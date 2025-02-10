@@ -1,5 +1,17 @@
+import { format } from "date-fns"
+import { ptBR } from "date-fns/locale"
 import Header from "../_components/header"
 
 export default function Home() {
-  return <Header></Header>
+  return (
+    <div>
+      <Header />
+      <div className="px-5 pt-5">
+        <h2 className="text-lg font-bold">Olá, Luciano Fortes</h2>
+        <p className="text-sm capitalize">
+          {format(new Date(), "EEEE',' dd 'de' MMMM", { locale: ptBR })}
+        </p>
+      </div>
+    </div>
+  )
 }
