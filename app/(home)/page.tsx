@@ -30,9 +30,21 @@ export default async function Home() {
       </div>
       <div className="mt-6 px-5">
         <h2 className="text-sm font-bold uppercase text-gray-400">
-          {" "}
           Recomendados
         </h2>
+        <div className="grid grid-cols-2 gap-4">
+          {barbershops.map((barbershop) => {
+            return (
+              <BarbershopItem
+                key={barbershop.id}
+                barbershop={barbershop}
+              ></BarbershopItem>
+            )
+          })}
+        </div>
+      </div>
+      <div className="mt-6 px-5">
+        <h2 className="text-sm font-bold uppercase text-gray-400">Populares</h2>
         <div className="grid grid-cols-2 gap-4">
           {barbershops.map((barbershop) => {
             return (
