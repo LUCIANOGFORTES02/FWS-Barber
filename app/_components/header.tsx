@@ -24,7 +24,7 @@ import { Avatar, AvatarImage } from "./ui/avatar"
 export default function Header() {
   const { data } = useSession()
 
-  const handleLoginClick = async () => await signIn("google")
+  const handleLoginClick = () => signIn()
 
   const handleLogoutClick = () => signOut()
 
