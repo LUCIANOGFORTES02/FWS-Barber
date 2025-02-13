@@ -19,25 +19,30 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
   }
   return (
     <Card className="min-w-full max-w-full rounded-2xl">
-      <CardContent className="p-0 px-1 pt-1">
+      <CardContent className="px-1 py-0 pt-1">
         {/* IMAGEM */}
         <div className="relative h-[159px] w-full">
+          <div className="absolute left-2 top-2 z-50">
+            <Badge
+              className="left-3 top-3 flex items-center gap-1 opacity-90"
+              variant="secondary"
+            >
+              <StarIcon size={12} className="fill-primary text-primary" />
+              <p className="text-xs font-semibold">5,0</p>
+            </Badge>
+          </div>
           <Image
             alt={barbershop.name}
             fill //Faz a imagem preencher o container pai mantendo as proporções
-            className="rounded-2xl object-cover" //object-cover (ajusta a imagem para cobrir toda a área disponível sem distorção)
+            style={{
+              objectFit: "cover",
+            }}
+            className="rounded-2xl" //object-cover (ajusta a imagem para cobrir toda a área disponível sem distorção)
             src={barbershop.imageUrl}
           />
-          <Badge
-            className="absolute left-2 top-2 space-x-1 opacity-90"
-            variant="secondary"
-          >
-            <StarIcon size={12} className="fill-primary text-primary" />
-            <p className="text-xs font-semibold">5,0</p>
-          </Badge>
         </div>
 
-        <div className="px-1 py-3">
+        <div className="px-2 pb-3">
           <h3 className="overflow-hidden truncate text-ellipsis text-nowrap font-semibold">
             {barbershop.name}
           </h3>
