@@ -13,7 +13,7 @@ interface ServiceItemProps {
 const ServiceItem = ({ service, isAuthenticated }: ServiceItemProps) => {
   const handleBookingClick = () => {
     if (!isAuthenticated) {
-      return signIn()
+      return signIn("google")
     }
   }
 

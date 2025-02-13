@@ -14,7 +14,7 @@ import Link from "next/link"
 const SideMenu = () => {
   const { data } = useSession()
 
-  const handleLoginClick = () => signIn()
+  const handleLoginClick = () => signIn("google")
 
   const handleLogoutClick = () => signOut()
   return (
