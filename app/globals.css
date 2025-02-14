@@ -38,12 +38,9 @@
 
 @layer base {
   * {
-    @apply border-border antialiased;
-  }
-  html {
-    @apply h-full;
+    @apply border-border;
   }
   body {
-    @apply h-full bg-background text-foreground;
+    @apply bg-background text-foreground antialiased h-screen flex flex-col;
   }
 }
