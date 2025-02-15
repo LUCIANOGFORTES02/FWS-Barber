@@ -10,7 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/app/_components/ui/sheet"
-import { Barbershop, BarbershopService, User } from "@prisma/client"
+import { Barbershop, BarbershopService } from "@prisma/client"
 import { signIn, useSession } from "next-auth/react"
 import Image from "next/image"
 import { useMemo, useState } from "react"
@@ -19,11 +19,19 @@ import { addDays, format, setHours, setMinutes } from "date-fns"
 import { generateDayTimeList } from "../_helpers/hours"
 import { saveBookings } from "../_actions/save-booking"
 import { Loader2 } from "lucide-react"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 interface ServiceItemProps {
   service: BarbershopService
   barbershop: Barbershop
   isAuthenticated?: boolean
+}
+interface User {
+  id: string
+  name?: string
+  email?: string
+  // Adicione outras propriedades do usuário, se necessário
 }
 
 const ServiceItem = ({
@@ -31,12 +39,14 @@ const ServiceItem = ({
   barbershop,
   isAuthenticated,
 }: ServiceItemProps) => {
-  const{data} = useSession()
+  const router = useRouter()
+
+  const { data } = useSession()
 
   const [date, setDate] = useState<Date | undefined>(undefined)
   const [hour, setHour] = useState<string | undefined>()
-  const [submitIsLoading, setSubmitIsLoading] = useState (false)
-
+  const [submitIsLoading, setSubmitIsLoading] = useState(false)
+  const [sheetIsOpen, setSheetIsOpen] = useState(false)
 
   const handleBookingClick = () => {
     if (!isAuthenticated) {
@@ -52,26 +62,39 @@ const ServiceItem = ({
     setHour(time)
   }
 
-  const handleBookingSubmit = async ()=>{
+  const handleBookingSubmit = async () => {
     setSubmitIsLoading(true)
-    try{
-      if(!hour||!date || !data?.user){
+    try {
+      if (!hour || !date || !data?.user) {
         return
       }
-      const dateHour = Number(hour.split(':')[0])
-      const dateMinutes = Number(hour.split(':')[1])
+      const dateHour = Number(hour.split(":")[0])
+      const dateMinutes = Number(hour.split(":")[1])
 
-      const newDate = setMinutes(setHours(date,dateHour),dateMinutes)//Produzir a data para armazenar no banco
+      const newDate = setMinutes(setHours(date, dateHour), dateMinutes) //Produzir a data para armazenar no banco
 
       await saveBookings({
         serviceId: service.id,
         barbershopId: barbershop.id,
-        date:newDate,
-        useId:(data.user as any).id
+        date: newDate,
+        useId: (data.user as User).id,
       })
-    }catch(error){
-      console.error(error);
-    }finally{
+
+      setSheetIsOpen(false)
+      setHour(undefined)
+      setDate(undefined)
+      toast("Reserva realizada com sucesso!", {
+        description: format(newDate, "'Para' dd 'de' MMMM 'às' HH':'mm'.'", {
+          locale: ptBR,
+        }),
+        action: {
+          label: "Visualizar",
+          onClick: () => router.push("/bookings"),
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    } finally {
       setSubmitIsLoading(false)
     }
   }
@@ -109,7 +132,7 @@ const ServiceItem = ({
                   currency: "BRL",
                 }).format(Number(service.price))}
               </p>
-              <Sheet>
+              <Sheet open={sheetIsOpen} onOpenChange={setSheetIsOpen}>
                 <SheetTrigger asChild>
                   <Button variant="secondary" onClick={handleBookingClick}>
                     Reservar
@@ -205,9 +228,15 @@ const ServiceItem = ({
                   </div>
 
                   <SheetFooter className="px-5">
-                    <Button disabled={(!hour || !date )||submitIsLoading} onClick={handleBookingSubmit} >
-                    {submitIsLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Confirmar reserva</Button>
+                    <Button
+                      disabled={!hour || !date || submitIsLoading}
+                      onClick={handleBookingSubmit}
+                    >
+                      {submitIsLoading && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      )}
+                      Confirmar reserva
+                    </Button>
                   </SheetFooter>
                 </SheetContent>
               </Sheet>
