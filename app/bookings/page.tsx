@@ -9,7 +9,6 @@ interface User {
   id: string
   name?: string
   email?: string
-  // Adicione outras propriedades do usuário, se necessário
 }
 
 const BookingsPage = async () => {
@@ -19,6 +18,7 @@ const BookingsPage = async () => {
   }
 
   const [confirmedBookings, finishedBookings] = await Promise.all([
+    // Executando as promises paralelamente
     db.booking.findMany({
       where: {
         userId: (session.user as User).id,
