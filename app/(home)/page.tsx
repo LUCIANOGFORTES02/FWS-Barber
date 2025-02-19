@@ -2,12 +2,11 @@ import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import Header from "../_components/header"
 import Search from "./_components/search"
-import BookingItem from "../_components/booking-item"
 import BarbershopItem from "./_components/barbershop-item"
 import { db } from "../_lib/prisma"
 
 export default async function Home() {
-  const barbershops = await db.barbershop.findMany()
+  const barbershops = await db.barbershop.findMany({})
 
   return (
     <div>
@@ -26,7 +25,7 @@ export default async function Home() {
         <h2 className="mb-3 text-sm font-bold uppercase text-gray-400">
           Agendamentos
         </h2>
-        <BookingItem />
+        {/* <BookingItem  /> */}
       </div>
       <div className="mt-6">
         <h2 className="mb-3 px-5 text-sm font-bold uppercase text-gray-400">
