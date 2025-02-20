@@ -1,6 +1,6 @@
 import { signIn, signOut, useSession } from "next-auth/react"
 import { SheetHeader, SheetTitle } from "./ui/sheet"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { Avatar, AvatarFallback } from "./ui/avatar"
 import { Button } from "./ui/button"
 import {
   CalendarIcon,
@@ -10,6 +10,7 @@ import {
   UserIcon,
 } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 
 const SideMenu = () => {
   const { data } = useSession()
@@ -18,7 +19,9 @@ const SideMenu = () => {
 
   const handleLogoutClick = () => signOut()
 
-  console.log(data?.user?.image)
+  console.log("User data Image", data?.user?.image)
+  console.log("Data", data)
+
   return (
     <>
       <SheetHeader className="border-b border-solid border-secondary p-5 text-left">
@@ -28,7 +31,11 @@ const SideMenu = () => {
         <div className="flex items-center justify-between px-5 py-6">
           <div className="flex items-center gap-3">
             <Avatar>
-              <AvatarImage src={data?.user?.image ?? ""} />
+              <Image
+                src={data?.user?.image ?? ""}
+                alt="User Image"
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
 
               <AvatarFallback>{data.user.name?.split("")[0]}</AvatarFallback>
             </Avatar>

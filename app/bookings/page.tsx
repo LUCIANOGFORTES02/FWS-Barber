@@ -67,7 +67,7 @@ const BookingsPage = async () => {
 
         {finishedBookings.length > 0 && (
           <>
-            <h2 className="mb-3 text-sm font-bold uppercase text-gray-400">
+            <h2 className="mb-3 mt-6 text-sm font-bold uppercase text-gray-400">
               Finalizados
             </h2>
 
