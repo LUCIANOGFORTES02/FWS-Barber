@@ -1,6 +1,6 @@
 import { signIn, signOut, useSession } from "next-auth/react"
 import { SheetHeader, SheetTitle } from "./ui/sheet"
-import { Avatar, AvatarFallback } from "./ui/avatar"
+import { Avatar } from "./ui/avatar"
 import { Button } from "./ui/button"
 import {
   CalendarIcon,
@@ -34,10 +34,12 @@ const SideMenu = () => {
               <Image
                 src={data?.user?.image ?? ""}
                 alt="User Image"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                width={40}
+                height={40} // Defina um valor adequado
+                style={{ objectFit: "cover" }}
               />
 
-              <AvatarFallback>{data.user.name?.split("")[0]}</AvatarFallback>
+              {/* <AvatarFallback>{data.user.name?.split("")[0]}</AvatarFallback> */}
             </Avatar>
             <h2 className="font-bold">{data.user.name}</h2>
           </div>

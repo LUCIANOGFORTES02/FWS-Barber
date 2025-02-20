@@ -9,6 +9,6 @@ export const cancelBooking = async (bookingId: string) => {
       id: bookingId,
     },
   })
-
+  revalidatePath("/") //Invalida o cache de uma rota e força a sua revalidação
   revalidatePath("/bookings")
 }
