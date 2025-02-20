@@ -5,8 +5,8 @@ import Search from "./_components/search"
 import BarbershopItem from "./_components/barbershop-item"
 import { db } from "../_lib/prisma"
 import { getServerSession } from "next-auth"
-import { authOptions } from "../api/auth/[...nextauth]/route"
 import BookingItem from "../_components/booking-item"
+import { authOptions } from "../_lib/auth"
 
 interface User {
   id: string
